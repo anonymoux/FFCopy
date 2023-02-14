@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import messagebox
 import os
 import shutil
 import re
@@ -22,7 +23,8 @@ def browse_copy_to():
 def compare_names():
     src_path = src_path_entry.get()
     with open(file_path_entry.get(), "r") as f:
-        partial_names = [name.strip() for name in re.split(r"[,\n. -]", f.read().strip())]
+        partial_names = re.split(r"[,\n. -]", f.read().strip())
+        partial_names = [name.strip() for name in partial_names if name.strip()]
     copy_to_path = copy_to_entry.get()
     files = os.listdir(src_path)
     selected_files = [f for f in files for name in partial_names if name in f]
@@ -35,7 +37,7 @@ def compare_names():
     tk.messagebox.showinfo("Info", f"{same_name_count} files copied")
 
 root = tk.Tk()
-root.title("File Finder&Copy v1.0 by Phat + chatGPT")
+root.title("File Finder&Copy v1.1 by Phat + chatGPT")
 
 file_path_label = tk.Label(root, text="Text file")
 file_path_label.grid(row=0, column=0)
